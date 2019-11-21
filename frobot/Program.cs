@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 
 namespace frobot
 {
@@ -18,7 +20,9 @@ namespace frobot
 
         private async Task MainAsync()
         {
-            var token = "NTk3OTkwMzA3NzExNDE4MzY5.XSQIBw.KoFi6HRl2gr08dxX5PRWLQRs3uc";
+            // TODO how to??? fix??? help NOW
+            var conf = JObject.Parse(File.ReadAllText(@"config.json"));
+            var token = (string) conf["DISCORD"]["TOKEN"];
             using var bot = new DiscordBot(TokenType.Bot, token, new DiscordBotConfiguration
             {
                 Prefixes = new[] { "!!" },
@@ -30,7 +34,7 @@ namespace frobot
             bot.Logger.MessageLogged += this.Logger_MessageLogged;
             bot.AddModules(Assembly.GetExecutingAssembly());
 
-            var guild = await bot.GetGuildAsync(597874957237878814);
+            var guild = await bot.GetGuildAsync(535572626480037909);
             var channels = await guild.GetChannelsAsync();
             var channel = channels.OfType<RestTextChannel>().FirstOrDefault(x => x.Name == "general");
 

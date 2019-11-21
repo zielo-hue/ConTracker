@@ -13,7 +13,7 @@ namespace frobot.Services
         private readonly JObject conf = JObject.Parse(File.ReadAllText(@"config.json"));
         private readonly string APPID;
         private readonly string REFRESHTOKEN;
-        public RedditAPI r;
+        public static RedditAPI r;
         private readonly DiscordBot _bot;
         private readonly Timer _timer;
         private readonly Snowflake channelid = 597875185886035989;
