@@ -16,5 +16,11 @@ namespace frobot.Modules
                 .WithTitle("Bruh")
                 .WithColor(Color.Azure)
                 .Build());
+
+        [Command("rpost")]
+        public Task RedditPostAsync()
+        {
+            //
+        }
     }
 }
