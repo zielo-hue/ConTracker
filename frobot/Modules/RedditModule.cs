@@ -33,13 +33,13 @@ namespace frobot.Modules
         public async Task RedditAsync()
         {
             var topPost = tf2.Posts.Hot[rnd.Next(0, 10)];
+            var selftext = topPost.Listing.IsSelf ? ((SelfPost)topPost).SelfText : "(linkpost)";
             await ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle(topPost.Title)
                 .WithUrl("https://www.reddit.com/r/tf2/comments/" + topPost.Id)
-                .WithDescription(((SelfPost)topPost).SelfText)
+                .WithDescription(selftext)
                 .AddField("Author", value: "u/" + topPost.Author, true)
                 .AddField("Upvotes", value: topPost.UpVotes.ToString(), true)
-                .AddField("temp: " + topPost.Permalink, value: 0, true)
                 .AddField("Id: ", value: topPost.Id, true)
                 .WithImageUrl(((LinkPost)topPost).URL)
                 .WithColor(Color.Azure)
