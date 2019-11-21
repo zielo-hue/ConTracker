@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace frobot.Services
 {
-    class RedditService
+    public class RedditService
     {
         RedditAPI r = new RedditAPI("zyUACyX76CQ1Lw", "322307119885-Vdx9Piiy89_iMYreR0PxA0Ro0E4");
         private readonly DiscordBot _bot;

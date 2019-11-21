@@ -8,7 +8,7 @@ namespace frobot.Modules
 {
     public sealed class RedditModule : DiscordModuleBase
     {
-        public RedditService redditService { get; set; }
+        public RedditService RedditService { get; set; }
 
         [Command("reddittest")]
         public Task PingAsync()
