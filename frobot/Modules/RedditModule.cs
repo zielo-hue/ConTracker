@@ -32,7 +32,7 @@ namespace frobot.Modules
         [Command("rtf2top")]
         public async Task RedditAsync()
         {
-            var topPost = tf2.Posts.Hot[rnd.Next(0, 10)];
+            var topPost = tf2.Posts.Hot[rnd.Next(0, 15)];
             var selftext = topPost.Listing.IsSelf ? ((SelfPost)topPost).SelfText : "(linkpost)";
             await ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle(topPost.Title)
