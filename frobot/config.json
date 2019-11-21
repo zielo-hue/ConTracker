@@ -1,0 +1,10 @@
+﻿{
+	"REDDIT": {
+		"APPID": "",
+		"REFRESHTOKEN": "",
+		"APPSECRET": "",
+	},
+	"DISCORD": {
+		"TOKEN": "",	
+	}
+}
