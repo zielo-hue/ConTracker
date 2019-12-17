@@ -46,6 +46,7 @@ namespace frobot.Modules
                 .Build()).ConfigureAwait(true);
         }
 
+        /*
         [Group("reddit")]
         public class GetModule : DiscordModuleBase
         {
@@ -65,6 +66,6 @@ namespace frobot.Modules
                     .WithColor(Color.Azure)
                     .Build()).ConfigureAwait(true);
             }
-        }
+        }*/
     }
 }

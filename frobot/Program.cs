@@ -20,7 +20,6 @@ namespace frobot
 
         private async Task MainAsync()
         {
-            // TODO how to??? fix??? help NOW
             var conf = JObject.Parse(File.ReadAllText(@"config.json"));
             var token = (string) conf["DISCORD"]["TOKEN"];
             using var bot = new DiscordBot(TokenType.Bot, token, new DiscordBotConfiguration

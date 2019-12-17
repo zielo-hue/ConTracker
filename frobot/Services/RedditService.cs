@@ -4,13 +4,14 @@ using Newtonsoft.Json.Linq;
 using Reddit;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace frobot.Services
 {
     public class RedditService
     {
-        private readonly JObject conf = JObject.Parse(File.ReadAllText(@"config.json"));
+        private readonly JObject conf = JObject.Parse(File.ReadAllText(@"config2.json"));
         private readonly string APPID;
         private readonly string REFRESHTOKEN;
         public static RedditAPI r;
@@ -20,18 +21,19 @@ namespace frobot.Services
         public RedditService(DiscordBot bot)
         {
             _bot = bot;
-            _timer = new Timer();
-            _timer.Interval = 30000;
-            _timer.Elapsed += UpdateStatus;
             APPID = (string) conf["REDDIT"]["APPID"];
-            REFRESHTOKEN = (string)conf["REDDIT"]["REFRESHTOKEN"];
+            REFRESHTOKEN = (string) conf["REDDIT"]["REFRESHTOKEN"];
             r = new RedditAPI(APPID, REFRESHTOKEN);
+            updatePresence().Start();
         }
 
-        private async void UpdateStatus(Object source, System.Timers.ElapsedEventArgs e)
+        public async Task updatePresence()
         {
-            await _bot.SetPresenceAsync(new LocalActivity("bruh", ActivityType.Playing));
-
+            while (true)
+            {
+                await Task.Delay(30000);
+                await _bot.SetPresenceAsync(new LocalActivity("bruh", ActivityType.Playing));
+            }
         }
     }
 }
