@@ -33,7 +33,7 @@ namespace frobot
             AddModules(typeof(Program).Assembly);
         }
 
-        private void MessageLogged(object sender, Logger.MessageLoggedEventArgs e)
+        private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)
             => Console.WriteLine(e);
     }
 }
