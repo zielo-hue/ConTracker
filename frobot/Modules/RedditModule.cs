@@ -11,9 +11,9 @@ namespace frobot.Modules
     public sealed class RedditModule : DiscordModuleBase
     {
         public RedditService RedditService { get; set; }
-        Random rnd = new Random();
+        static Random rnd = new Random();
 
-        Subreddit tf2 = RedditService.r.Subreddit("tf2").About();
+        static Subreddit tf2 = RedditService.r.Subreddit("tf2").About();
 
         [Command("reddittest")]
         public Task PingAsync()
@@ -22,7 +22,7 @@ namespace frobot.Modules
                 .WithColor(Color.Azure)
                 .Build());
 
-        [Command("rpost")] //TODO: Implement
+        [Command("rpost")] //TODO: Implement correctly!
         public Task RedditPostAsync()
             => ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle("Ok")
