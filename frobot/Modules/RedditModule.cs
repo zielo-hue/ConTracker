@@ -13,7 +13,7 @@ namespace frobot.Modules
         public RedditService RedditService { get; set; }
         static Random rnd = new Random();
 
-        static Subreddit tf2 = RedditService.r.Subreddit("tf2").About();
+        static Subreddit tf2 = RedditService.R.Subreddit("tf2").About();
 
         [Command("reddittest")]
         public Task PingAsync()
@@ -29,7 +29,7 @@ namespace frobot.Modules
                 .WithColor(Color.Azure)
                 .Build());
 
-        [Command("top", "hot")]
+        [Command("top")]
         public async Task RedditAsync()
         {
             var topPost = tf2.Posts.Hot[rnd.Next(0, 15)];

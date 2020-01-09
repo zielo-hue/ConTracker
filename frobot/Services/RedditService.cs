@@ -6,24 +6,21 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
+using Disqord.Bot.Sharding;
 
 namespace frobot.Services
 {
     public class RedditService
     {
-        private readonly JObject conf = JObject.Parse(File.ReadAllText(@"config2.json"));
-        private readonly string APPID;
-        private readonly string REFRESHTOKEN;
-        public static RedditAPI r;
+        private readonly JObject _conf = JObject.Parse(File.ReadAllText(@"config2.json"));
+        public static RedditAPI R;
         private readonly DiscordBot _bot;
-        private readonly Timer _timer;
-        private readonly Snowflake channelid = 597875185886035989;
         public RedditService(DiscordBot bot)
         {
             _bot = bot;
-            APPID = (string) conf["REDDIT"]["APPID"];
-            REFRESHTOKEN = (string) conf["REDDIT"]["REFRESHTOKEN"];
-            r = new RedditAPI(APPID, REFRESHTOKEN);
+            var appid = (string) _conf["REDDIT"]["APPID"];
+            var refreshtoken = (string) _conf["REDDIT"]["REFRESHTOKEN"];
+            R = new RedditAPI(appid, refreshtoken);
             updatePresence().Start();
         }
 

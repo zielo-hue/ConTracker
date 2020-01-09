@@ -4,6 +4,8 @@ using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Sharding;
 using Disqord.Bot.Prefixes;
+using frobot.Modules;
+using frobot.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 
@@ -18,14 +20,14 @@ namespace frobot
         
         private Program() : base(TokenType.Bot, token,
             new DefaultPrefixProvider()
-                .AddPrefix("~~")
+                .AddPrefix("!!")
                 .AddMentionPrefix(),
             new DiscordBotConfiguration
             {
-                Status = UserStatus.Invisible,
+                Status = UserStatus.Online,
                 ProviderFactory = bot => new ServiceCollection()
-                    .AddSingleton((DiscordBot) bot)
-                    .AddSingleton(new Services.RedditService((DiscordBot) bot))
+                    .AddSingleton((DiscordBotSharder) bot)
+                    .AddSingleton<RedditService>()
                     .BuildServiceProvider()
             })
         {

@@ -6,13 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Disqord" Version="1.0.0-nightly-00007" />
-    <PackageReference Include="Disqord.Audio" Version="1.0.0-nightly-00007" />
     <PackageReference Include="Disqord.Bot" Version="1.0.0-nightly-00007" />
-    <PackageReference Include="Disqord.Core" Version="1.0.0-nightly-00007" />
-    <PackageReference Include="Disqord.Interactivity" Version="1.0.0-nightly-00007" />
-    <PackageReference Include="Disqord.Rest" Version="1.0.0-nightly-00007" />
-    <PackageReference Include="Disqord.Serialization.Json.Newtonsoft" Version="1.0.0-nightly-00007" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
@@ -20,7 +14,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Qmmands" Version="3.1.0-nightly-00234" />
     <PackageReference Include="Reddit" Version="1.2.0" />
   </ItemGroup>
 
