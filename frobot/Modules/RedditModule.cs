@@ -15,17 +15,10 @@ namespace frobot.Modules
 
         static Subreddit tf2 = RedditService.R.Subreddit("tf2").About();
 
-        [Command("reddittest")]
+        [Command("leddit")]
         public Task PingAsync()
             => ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle("Bruh")
-                .WithColor(Color.Azure)
-                .Build());
-
-        [Command("rpost")] //TODO: Implement correctly!
-        public Task RedditPostAsync()
-            => ReplyAsync(embed: new LocalEmbedBuilder()
-                .WithTitle("Ok")
                 .WithColor(Color.Azure)
                 .Build());
 
@@ -33,7 +26,7 @@ namespace frobot.Modules
         public async Task RedditAsync()
         {
             var topPost = tf2.Posts.Hot[rnd.Next(0, 15)];
-            var selftext = topPost.Listing.IsSelf ? ((SelfPost)topPost).SelfText : "(linkpost)";
+            var selftext = topPost.Listing.IsSelf ? ((SelfPost) topPost).SelfText : "(linkpost)";
             await ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle(topPost.Title)
                 .WithUrl("https://www.reddit.com/r/tf2/comments/" + topPost.Id)
@@ -41,7 +34,7 @@ namespace frobot.Modules
                 .AddField("Author", value: "u/" + topPost.Author, true)
                 .AddField("Upvotes", value: topPost.UpVotes.ToString(), true)
                 .AddField("Id: ", value: topPost.Id, true)
-                .WithImageUrl(((LinkPost)topPost).URL)
+                .WithImageUrl(((LinkPost) topPost).URL)
                 .WithColor(Color.Azure)
                 .Build()).ConfigureAwait(true);
         }
