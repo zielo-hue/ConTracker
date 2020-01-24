@@ -1,0 +1,11 @@
+﻿{
+	"DISCORD": {
+		"TOKEN": ""
+	},
+	"DISCORD_USER": {
+	    "TOKEN": ""
+	},
+	"STEAM": {
+	    "TOKEN": ""
+	}
+}

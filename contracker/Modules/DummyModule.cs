@@ -2,7 +2,7 @@
 using Disqord.Bot;
 using Qmmands;
 
-namespace frobot.Modules
+namespace contracker.Modules
 {
     public sealed class DummyModule : DiscordModuleBase
     {
