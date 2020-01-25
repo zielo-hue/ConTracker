@@ -12,9 +12,15 @@ namespace contracker.Services
 {
     public class SteamService
     {
+        private dynamic steamUser;
         public SteamService(string token)
         {
-            dynamic steamNews = WebAPI.GetInterface("ISteamUser");
+            steamUser = WebAPI.GetInterface("ISteamUser", token);
+        }
+
+        string getID()
+        {
+            // 
         }
     }
 }
