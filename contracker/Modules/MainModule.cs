@@ -137,7 +137,7 @@ namespace contracker.Modules
                     break;
                 default:
                     title = "Success";
-                    description = "`Pretend this sends an API request...`\nwith account+" +
+                    description = "`Pretend this sends an API request...`\nwith account " +
                                       $"`{SteamService.GetSteamName(users[accountNumber])}`" +
                                       $"or steamid `{users[accountNumber]}`";
                     break;
