@@ -17,11 +17,9 @@ namespace contracker.Services
             using ( dynamic steamUser = WebAPI.GetInterface("ISteamUser", _token) )
             {
                 steamUser.Timeout = TimeSpan.FromSeconds(5);
-                KeyValue uservalues = steamUser.GetPlayerSummaries(steamids: id);
-                foreach (KeyValue user in uservalues["players"].Children)
-                {
-                    name += user["personaname"].AsString();
-                }
+                KeyValue response = steamUser.GetPlayerSummaries(steamids: id);
+                KeyValue user = response["players"]["player"]["0"];
+                name = user["personaname"].AsString();
             }
             return name;
         }

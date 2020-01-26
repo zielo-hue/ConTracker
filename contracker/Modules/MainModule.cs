@@ -56,58 +56,10 @@ namespace contracker.Modules
         {
             Snowflake id = Context.User.Id;
         }
-        
+
         [Command("register")]
         [Description("Placeholder for registering.")]
-        public async Task RegisterAsync()
-        {
-            Snowflake id = Context.User.Id;
-            var users = DUserService.GetAccounts(id).Result;
-            string title;
-            string description;
-            switch (users.Count)
-            {
-                case 0:
-                    title = "Fail";
-                    description = "`No Steam accounts associated with your account.`\n" +
-                                  "[Go here](https://www.quora.com/How-will-I-add-my-gaming-accounts-in-Discord) " +
-                                  "to see how to link your Steam account. You may unlink your account once you register.";
-                    break;
-                case 1:
-                    if (DUserService.IsVerified(id).Result)
-                    {
-                        title = "Success";
-                        description = $"`Pretend this sends an API request..`{SteamService.GetSteamName(users[0])}";
-                    }
-                    else
-                    {
-                        title = "Fail";
-                        description = "`Your Steam account is not verified.`\n" +
-                                      "[Go here](https://www.reddit.com/r/discordapp/comments/6elfxl/its_now_possible_to_have_a_verified_steam_account/) " +
-                                      "to see how to verify your Steam account.";
-                    }
-                    break;
-                default:
-                    title = "Fail";
-                    description = "`You have multiple linked Steam accounts.`\n" +
-                                "Use command `!register n` and replace `n` with the correct account number shown below." +
-                                "```\n" +
-                                string.Join("\n", 
-                                    users.Select((x, index) =>
-                                        $"{index} - {SteamService.GetSteamName(x)}")) +
-                                "```";
-                    break;
-            }
-            
-            await ReplyAsync(embed: new LocalEmbedBuilder()
-                .WithTitle(title)
-                .WithDescription(description)
-                .WithColor(Color.Honeydew)
-                .Build()).ConfigureAwait(true);
-        }
-        [Command("register")]
-        [Description("Placeholder for registering.")]
-        public async Task RegisterAsync(int accountNumber)
+        public async Task RegisterAsync(int accountNumber = -1)
         {
             Snowflake id = Context.User.Id;
             var users = DUserService.GetAccounts(id).Result;
@@ -136,10 +88,24 @@ namespace contracker.Modules
                     }
                     break;
                 default:
-                    title = "Success";
-                    description = "`Pretend this sends an API request...`\nwith account " +
-                                      $"`{SteamService.GetSteamName(users[accountNumber])}`" +
-                                      $"or steamid `{users[accountNumber]}`";
+                    if (accountNumber != -1)
+                    {
+                        title = "Success";
+                        description = "`Pretend this sends an API request...`\nwith account " +
+                                          $"`{SteamService.GetSteamName(users[accountNumber])}` " +
+                                          $"or steamid `{users[accountNumber]}`";
+                    }
+                    else
+                    {
+                        title = "Fail";
+                        description = "`You have multiple linked Steam accounts.`\n" +
+                                    "Use command `!register n` and replace `n` with the correct account number shown below." +
+                                    "```\n" +
+                                    string.Join("\n",
+                                        users.Select((x, index) =>
+                                            $"{index} - {SteamService.GetSteamName(x)}")) +
+                                    "```";
+                    }
                     break;
             }
 
