@@ -1,13 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SteamKit2;
-using System.Net.Http;
-using Disqord;
 
 namespace contracker.Services
 {
@@ -18,6 +10,16 @@ namespace contracker.Services
         {
             steamUser = WebAPI.GetInterface("ISteamUser", token);
             steamUser.Timeout = TimeSpan.FromSeconds(5);
+        }
+
+        public string GetSteamName(string id)
+        {
+            string name = "";
+            foreach (KeyValue user in steamUser.GetPlayerSummaries(steamids: id)["players"].Children)
+            {
+                name += user["personaname"].GetType();
+            }
+            return name;
         }
 
         /*Redundant

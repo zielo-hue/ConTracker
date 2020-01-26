@@ -40,24 +40,14 @@ namespace contracker.Services
             }
             return steamAccounts;
         }
-
-        public string GetSteamName(string id)
-        {
-            return SteamService.steamUser.GetPlayerSummaries(steamids: id)["players"][0]["personaname"].AsString();
-        }
         
         public async Task<bool> IsVerified(Snowflake userId)
         {
             var profile = await client.GetProfileAsync(userId: userId);
-            bool verified = false;
-            foreach (var account in profile.ConnectedAccounts)
-            {
-                if (account.Type == "steam" && account.IsVerified == true)
-                    verified = true;
-                else
-                    verified = false;
-            }
-            return verified;
+            if (profile.ConnectedAccounts.First().IsVerified == true && profile.ConnectedAccounts.First().Type.Equals("steam"))
+                return true;
+            else
+                return false;
         }
         
         /*// Legacy
