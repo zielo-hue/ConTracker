@@ -19,7 +19,7 @@ namespace contracker
         static JObject conf = JObject.Parse(File.ReadAllText(@"config.json"));
         static String botToken = (string) conf["DISCORD"]["TOKEN"];
         static String clientToken = (string) conf["DISCORD_USER"]["TOKEN"];
-        private static String steamToken = (string) conf["STEAM"]["TOKEN"];
+        static String steamToken = (string) conf["STEAM"]["TOKEN"];
         private static void Main()
             => new Program().Run();
         
@@ -30,17 +30,19 @@ namespace contracker
             new DiscordBotConfiguration
             {
                 Status = UserStatus.Online,
-                ProviderFactory = bot => new ServiceCollection()
-                    .AddSingleton((DiscordBotSharder) bot)
-                    .AddSingleton(new DUserService(clientToken))
-                    .AddSingleton(new SteamService(steamToken))
-                    .BuildServiceProvider()
+                ProviderFactory = bot =>
+                    new ServiceCollection()
+                        .AddSingleton((DiscordBotSharder) bot)
+                        .AddSingleton<DBotService>()
+                        .AddSingleton(new DUserService(clientToken))
+                        .AddSingleton(new SteamService(steamToken))
+                        .BuildServiceProvider()
             })
         {
             Logger.MessageLogged += MessageLogged;
             
-            /*In case of fuckup:
-            CommandExecutionFailed += handler;*/
+            // In case of fuckup:
+            CommandExecutionFailed += handler;
             
             AddModules(typeof(Program).Assembly);
             
@@ -52,11 +54,9 @@ namespace contracker
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)
             => Console.WriteLine(e);
         
-         /*
          // In case of fuckup:
          private async Task handler(CommandExecutionFailedEventArgs args)
            => Console.WriteLine(args.Result.Exception);
-        */
          
     }
 }

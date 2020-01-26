@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord;
@@ -10,25 +11,64 @@ namespace contracker.Services
     public class DUserService
     {
         private DiscordClient client;
-        private readonly DiscordBotSharder _bot;
+        public DBotService DBotService { get; set; }
+        public SteamService SteamService { get; set; }
         
-        public DUserService(DiscordBotSharder bot, string token)
+        public DUserService(string token)
         {
-            _bot = bot;
             client = new DiscordClient(TokenType.User, token);
             _ = UpdatePresence();
         }
         
-        // i forgot to do this
         async Task UpdatePresence()
         {
             while (true)
             {
                 await Task.Delay(30000);
-                await _bot.SetPresenceAsync(new LocalActivity("FUCK holonoid & gaming", ActivityType.Playing));
+                await DBotService._bot.SetPresenceAsync(new LocalActivity("FUCK holonoid & gaming", ActivityType.Playing));
             }
         }
 
         // Use steam API
+        public async Task<List<string>> GetAccounts(Snowflake userId)
+        {
+            var profile = await client.GetProfileAsync(userId: userId);
+            List<string> steamAccounts = new List<string>();
+            foreach (var account in profile.ConnectedAccounts)
+            {
+                if(account.Type == "steam") steamAccounts.Add(account.Id);
+            }
+            return steamAccounts;
+        }
+
+        public string GetSteamName(string id)
+        {
+            return SteamService.steamUser.GetPlayerSummaries(steamids: id)["players"][0]["personaname"].AsString();
+        }
+        
+        public async Task<bool> IsVerified(Snowflake userId)
+        {
+            var profile = await client.GetProfileAsync(userId: userId);
+            bool verified = false;
+            foreach (var account in profile.ConnectedAccounts)
+            {
+                if (account.Type == "steam" && account.IsVerified == true)
+                    verified = true;
+                else
+                    verified = false;
+            }
+            return verified;
+        }
+        
+        /*// Legacy
+        public async Task<List<string>> GetSteamNames(List<string> ids)
+        {
+            List<string> steamNames = new List<string>();
+            foreach (var id in ids)
+            {
+                steamNames.Add(SteamService.steamUser.GetPlayerSummaries(steamids: id)["players"][0]["personaname"].AsString());
+            }
+            return steamNames;
+        }*/
     }
 }

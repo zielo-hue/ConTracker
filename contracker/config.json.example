@@ -8,4 +8,7 @@
 	"STEAM": {
 	    "TOKEN": ""
 	}
+	"CONTRACKER_API": {
+	    "TOKEN": ""
+	}
 }
