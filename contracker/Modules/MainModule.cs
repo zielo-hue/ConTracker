@@ -92,7 +92,7 @@ namespace contracker.Modules
                     {
                         title = "Success";
                         description = "`Pretend this sends an API request...`\nwith account " +
-                                          $"`{SteamService.GetSteamName(users[accountNumber])}` " +
+                                          $"`{SteamService.GetSteamName(users[accountNumber]).Replace("`", "")}` " +
                                           $"or steamid `{users[accountNumber]}`";
                     }
                     else
@@ -103,7 +103,7 @@ namespace contracker.Modules
                                     "```\n" +
                                     string.Join("\n",
                                         users.Select((x, index) =>
-                                            $"{index} - {SteamService.GetSteamName(x)}")) +
+                                            $"{index} - {SteamService.GetSteamName(x).Replace("`", "")}")) +
                                     "```";
                     }
                     break;
