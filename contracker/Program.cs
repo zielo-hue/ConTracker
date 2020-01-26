@@ -30,6 +30,7 @@ namespace contracker
             new DiscordBotConfiguration
             {
                 Status = UserStatus.Online,
+                Activity = new LocalActivity("!c help", ActivityType.Playing),
                 ProviderFactory = bot =>
                     new ServiceCollection()
                         .AddSingleton((DiscordBotSharder) bot)
