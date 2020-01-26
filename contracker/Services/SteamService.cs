@@ -5,19 +5,23 @@ namespace contracker.Services
 {
     public class SteamService
     {
-        public dynamic steamUser;
+        string _token;
         public SteamService(string token)
         {
-            steamUser = WebAPI.GetInterface("ISteamUser", token);
-            steamUser.Timeout = TimeSpan.FromSeconds(5);
+            _token = token;
         }
 
         public string GetSteamName(string id)
         {
             string name = "";
-            foreach (KeyValue user in steamUser.GetPlayerSummaries(steamids: id)["players"].Children)
+            using ( dynamic steamUser = WebAPI.GetInterface("ISteamUser", _token) )
             {
-                name += user["personaname"].GetType();
+                steamUser.Timeout = TimeSpan.FromSeconds(5);
+                KeyValue uservalues = steamUser.GetPlayerSummaries(steamids: id);
+                foreach (KeyValue user in uservalues["players"].Children)
+                {
+                    name += user["personaname"].AsString();
+                }
             }
             return name;
         }
