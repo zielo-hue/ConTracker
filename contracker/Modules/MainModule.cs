@@ -69,13 +69,25 @@ namespace contracker.Modules
         public async Task ProfileAsync()
         {
             var id = Context.User.Id;
-            var color = Color.Green;
+            var color = Color.Red;
             var description = "You are not registered!";
+            var embed = new LocalEmbedBuilder()
+                .WithTitle("User profile");
             if (ContrackerService.IsRegistered(id))
             {
-                description = ""
+                var player = ContrackerService.Contracker
+                    .GetPlayer(DUserService.GetSteamAccount(id).Result);
+                description = "You are gamer.";
+                color = Color.Green;
+                embed.AddField("Discord ID", player.Discord)
+                    .AddField("Steam ID", player.Steam)
+                    .AddField("Steam name", SteamService.GetSteamName(player.Steam));
             }
-            
+
+            await ReplyAsync(embed: embed
+                .WithDescription(description)
+                .WithColor(color)
+                .Build()).ConfigureAwait(true);
         }
 
         [Command("register")]

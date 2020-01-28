@@ -20,8 +20,9 @@ namespace contracker.Services
                 _ = Contracker.GetPlayer(discordId: discordId.ToString());
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
