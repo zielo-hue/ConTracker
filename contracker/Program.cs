@@ -16,14 +16,15 @@ namespace contracker
 {
     internal sealed class Program : DiscordBotSharder
     {
-        static JObject conf = JObject.Parse(File.ReadAllText(@"config.json"));
-        static String botToken = (string) conf["DISCORD"]["TOKEN"];
-        static String clientToken = (string) conf["DISCORD_USER"]["TOKEN"];
-        static String steamToken = (string) conf["STEAM"]["TOKEN"];
+        static readonly JObject Conf = JObject.Parse(File.ReadAllText(@"config.json"));
+        static readonly String BotToken = (string) Conf["DISCORD"]["TOKEN"];
+        static readonly String ClientToken = (string) Conf["DISCORD_USER"]["TOKEN"];
+        static readonly String SteamToken = (string) Conf["STEAM"]["TOKEN"];
+        static readonly String ContrackerToken = (string) Conf["CONTRACKER_API"]["TOKEN"];
         private static void Main()
             => new Program().Run();
         
-        private Program() : base(TokenType.Bot, botToken,
+        private Program() : base(TokenType.Bot, BotToken,
             new DefaultPrefixProvider()
                 .AddPrefix("!c")
                 .AddMentionPrefix(),
@@ -35,8 +36,9 @@ namespace contracker
                     new ServiceCollection()
                         .AddSingleton((DiscordBotSharder) bot)
                         .AddSingleton<DBotService>()
-                        .AddSingleton(new DUserService(clientToken))
-                        .AddSingleton(new SteamService(steamToken))
+                        .AddSingleton(new DUserService(ClientToken))
+                        .AddSingleton(new SteamService(SteamToken))
+                        .AddSingleton(new ContrackerService(ContrackerToken))
                         .BuildServiceProvider()
             })
         {

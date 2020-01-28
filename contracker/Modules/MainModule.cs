@@ -17,6 +17,7 @@ namespace contracker.Modules
         public DiscordBotSharder bot { get; set; }
         public DUserService DUserService { get; set; }
         public SteamService SteamService { get; set; }
+        public ContrackerService ContrackerService { get; set; }
 
         [Command("help", "commands")]
         [Description("Lists available commands.")]
@@ -54,7 +55,27 @@ namespace contracker.Modules
         [Description("Placeholder for checking contracker progress.")]
         public async Task TrackerAsync()
         {
-            Snowflake id = Context.User.Id;
+            var id = Context.User.Id;
+            await ReplyAsync(embed: new LocalEmbedBuilder()
+            .WithTitle("User profile")
+            .WithDescription(string.Join("\n", bot.GetAllCommands().Select(
+                x => $"`{x.Name}` - {x.Description}")))
+            .WithColor(Color.Honeydew)
+            .Build()).ConfigureAwait(true);
+        }
+        
+        [Command("profile", "me")]
+        [Description("Placeholder for profile.")]
+        public async Task ProfileAsync()
+        {
+            var id = Context.User.Id;
+            var color = Color.Green;
+            var description = "You are not registered!";
+            if (ContrackerService.IsRegistered(id))
+            {
+                description = ""
+            }
+            
         }
 
         [Command("register")]
