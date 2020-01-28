@@ -76,7 +76,7 @@ namespace contracker.Modules
             if (ContrackerService.IsRegistered(id))
             {
                 var player = ContrackerService.Contracker
-                    .GetPlayer(DUserService.GetSteamAccount(id).Result);
+                    .GetPlayer(discordId: id.ToString());
                 description = "You are gamer.";
                 color = Color.Green;
                 embed.AddField("Discord ID", player.Discord)
@@ -98,48 +98,58 @@ namespace contracker.Modules
             var users = DUserService.GetAccounts(id).Result;
             string title;
             string description;
-            switch (users.Count)
+            if (!ContrackerService.IsRegistered(id))
             {
-                case 0:
-                    title = "Fail";
-                    description = "`No Steam accounts associated with your account.`\n" +
-                                  "[Go here](https://www.quora.com/How-will-I-add-my-gaming-accounts-in-Discord) " +
-                                  "to see how to link your Steam account. You may unlink your account once you register.";
-                    break;
-                case 1:
-                    if (DUserService.IsVerified(id).Result)
-                    {
-                        title = "Success";
-                        description = "`Pretend this sends an API request..`";
-                    }
-                    else
-                    {
+                switch (users.Count)
+                {
+                    case 0:
                         title = "Fail";
-                        description = "`Your Steam account is not verified.`\n" +
-                                      "[Go here](https://www.reddit.com/r/discordapp/comments/6elfxl/its_now_possible_to_have_a_verified_steam_account/) " +
-                                      "to see how to verify your Steam account.";
-                    }
-                    break;
-                default:
-                    if (accountNumber != -1)
-                    {
-                        title = "Success";
-                        description = "`Pretend this sends an API request...`\nwith account " +
+                        description = "`No Steam accounts associated with your account.`\n" +
+                                      "[Go here](https://www.quora.com/How-will-I-add-my-gaming-accounts-in-Discord) " +
+                                      "to see how to link your Steam account. You may unlink your account once you register.";
+                        break;
+                    case 1:
+                        if (DUserService.IsVerified(id).Result)
+                        {
+                            title = "Success";
+                            description = "`Pretend this sends an API request..`";
+                        }
+                        else
+                        {
+                            title = "Fail";
+                            description = "`Your Steam account is not verified.`\n" +
+                                          "[Go here](https://www.reddit.com/r/discordapp/comments/6elfxl/its_now_possible_to_have_a_verified_steam_account/) " +
+                                          "to see how to verify your Steam account.";
+                        }
+
+                        break;
+                    default:
+                        if (accountNumber != -1)
+                        {
+                            title = "Success";
+                            description = "`Pretend this sends an API request...`\nwith account " +
                                           $"`{SteamService.GetSteamName(users[accountNumber]).Replace("`", "")}` " +
                                           $"or steamid `{users[accountNumber]}`";
-                    }
-                    else
-                    {
-                        title = "Fail";
-                        description = "`You have multiple linked Steam accounts.`\n" +
-                                    "Use command `!register n` and replace `n` with the correct account number shown below." +
-                                    "```\n" +
-                                    string.Join("\n",
-                                        users.Select((x, index) =>
-                                            $"{index} - {SteamService.GetSteamName(x).Replace("`", "")}")) +
-                                    "```";
-                    }
-                    break;
+                        }
+                        else
+                        {
+                            title = "Fail";
+                            description = "`You have multiple linked Steam accounts.`\n" +
+                                          "Use command `!register n` and replace `n` with the correct account number shown below." +
+                                          "```\n" +
+                                          string.Join("\n",
+                                              users.Select((x, index) =>
+                                                  $"{index} - {SteamService.GetSteamName(x).Replace("`", "")}")) +
+                                          "```";
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                title = "You are already registered!";
+                description = $"You are registered on Steam account " +
+                              $"`{SteamService.GetSteamName(DUserService.GetSteamAccount(id).Result)}`";
             }
 
             await ReplyAsync(embed: new LocalEmbedBuilder()

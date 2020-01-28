@@ -52,6 +52,7 @@ namespace contracker
             // Initialize services
             this.GetRequiredService<DUserService>();
             this.GetRequiredService<SteamService>();
+            this.GetRequiredService<DBotService>();
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)

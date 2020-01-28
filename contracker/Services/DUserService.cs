@@ -17,16 +17,6 @@ namespace contracker.Services
         public DUserService(string token)
         {
             client = new DiscordClient(TokenType.User, token);
-            _ = UpdatePresence();
-        }
-        
-        async Task UpdatePresence()
-        {
-            while (true)
-            {
-                await Task.Delay(30000);
-                await DBotService._bot.SetPresenceAsync(new LocalActivity("FUCK holonoid & gaming", ActivityType.Playing));
-            }
         }
 
         // Use steam API
