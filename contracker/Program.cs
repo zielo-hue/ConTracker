@@ -7,6 +7,8 @@ using Disqord.Bot;
 using Disqord.Bot.Sharding;
 using Disqord.Bot.Prefixes;
 using contracker.Modules;
+using Disqord.Extensions.Interactivity;
+using Disqord.Extensions.Interactivity.Menus;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using Qmmands;
@@ -31,7 +33,6 @@ namespace contracker
             new DiscordBotConfiguration
             {
                 Status = UserStatus.Online,
-                Activity = new LocalActivity("!c help", ActivityType.Playing),
                 ProviderFactory = bot =>
                     new ServiceCollection()
                         .AddSingleton((DiscordBotSharder) bot)
@@ -48,7 +49,7 @@ namespace contracker
             CommandExecutionFailed += handler;
             
             AddModules(typeof(Program).Assembly);
-            
+
             // Initialize services
             this.GetRequiredService<DUserService>();
             this.GetRequiredService<SteamService>();

@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using contracker.Resources;
 using contracker.Services;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Sharding;
+using Disqord.Extensions.Interactivity.Menus;
 using Qmmands;
 using SteamKit2;
 
@@ -81,7 +83,9 @@ namespace contracker.Modules
                 color = Color.Green;
                 embed.AddField("Discord ID", player.Discord)
                     .AddField("Steam ID", player.Steam)
-                    .AddField("Steam name", SteamService.GetSteamName(player.Steam));
+                    .AddField("Steam Name", SteamService.GetSteamName(player.Steam))
+                    .AddField("Point", player.Points)
+                    .AddField("Stars", player.Stars);
             }
 
             await ReplyAsync(embed: embed
@@ -157,6 +161,14 @@ namespace contracker.Modules
                 .WithDescription(description)
                 .WithColor(Color.Honeydew)
                 .Build()).ConfigureAwait(true);
+        }
+
+        [Command("vote")]
+        [Description("Reaction based voting test")]
+        public async Task ReactionMenuAsync()
+        {
+            var menu = new RegistrationMenu();
+            await Context.Channel.StartMenuAsync(menu);
         }
 
     }

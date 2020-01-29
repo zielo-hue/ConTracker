@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Disqord.Bot" Version="1.0.0-nightly-00024" />
+    <PackageReference Include="Disqord.Extensions.Interactivity" Version="1.0.0-nightly-00026" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
@@ -27,10 +28,6 @@
     <Reference Include="ContrackerAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>C:\Users\jolly\RiderProjects\contracker.NET\ContrackerAPI\bin\Debug\netcoreapp3.0\ContrackerAPI.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="resources" />
   </ItemGroup>
 
 </Project>
