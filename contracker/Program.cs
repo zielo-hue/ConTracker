@@ -54,6 +54,7 @@ namespace contracker
             this.GetRequiredService<DUserService>();
             this.GetRequiredService<SteamService>();
             this.GetRequiredService<DBotService>();
+            this.AddExtensionAsync(new InteractivityExtension());
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)

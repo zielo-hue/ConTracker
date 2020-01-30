@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot.Sharding;
+using Disqord.Extensions.Interactivity;
+using Microsoft.VisualBasic;
 
 namespace contracker.Services
 {
