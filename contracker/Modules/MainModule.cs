@@ -175,11 +175,11 @@ namespace contracker.Modules
             }
             else
             {
+                var player = ContrackerService.Contracker.GetPlayer(discordId: id.ToString());
                 title = "You are already registered!";
-                description = $"You are registered on Steam account " +
-                              $"`{SteamService.GetSteamName(DUserService.GetSteamAccount(id).Result)}`";
+                description = "You are registered on Steam account " +
+                              $"`{SteamService.GetSteamName(player.Steam)}`";
             }
-
             await ReplyAsync(embed: new LocalEmbedBuilder()
                 .WithTitle(title)
                 .WithDescription(description)

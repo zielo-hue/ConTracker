@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using SteamKit2;
 
 namespace contracker.Services
