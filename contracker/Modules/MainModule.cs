@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using contracker.Resources;
 using contracker.Services;
 using Disqord;
@@ -115,8 +116,18 @@ namespace contracker.Modules
                     case 1:
                         if (DUserService.IsVerified(id).Result)
                         {
-                            title = "Success";
-                            description = "`Pretend this sends an API request..`";
+                            try
+                            {
+                                title = "Success";
+                                description = "`Pretend this sends an API request..`";
+                                _ = ContrackerService.Contracker.CreatePlayer(users.First(), id.ToString());
+                            }
+                            catch (XmlException e)
+                            {
+                                title = "Fail";
+                                description = "`An error has occured. Probably server's fault.`";
+                                Console.WriteLine(e);
+                            }
                         }
                         else
                         {
@@ -128,7 +139,7 @@ namespace contracker.Modules
 
                         break;
                     default:
-                        if (accountNumber != -1)
+                        if (accountNumber != -1 && accountNumber < users.Count)
                         {
                             title = "Success";
                             description = "`Pretend this sends an API request...`\nwith account " +

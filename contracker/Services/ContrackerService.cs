@@ -17,12 +17,12 @@ namespace contracker.Services
         {
             try
             {
-                _ = Contracker.GetPlayer(discordId: discordId.ToString());
+                Contracker.GetPlayer(discordId: discordId.ToString());
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("This is PROBABLY not an error:" + e);
                 return false;
             }
         }
