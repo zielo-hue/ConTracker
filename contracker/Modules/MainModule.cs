@@ -59,10 +59,23 @@ namespace contracker.Modules
         public async Task TrackerAsync()
         {
             var id = Context.User.Id;
+            var description = "You are not registered!";
+            var builder = new LocalEmbedBuilder()
+                .WithTitle("Tracker template");
+            if (ContrackerService.IsRegistered(id))
+            {
+                var player = ContrackerService.Contracker.GetPlayer(discordId: id.ToString());
+                var contracts = ContrackerService.Contracker.GetPlayerContracts(player);
+                if (contracts.Count > 0)
+                    description = string.Join("\n",
+                        contracts.Select(x =>
+                            $"`{x.Contract.Name}` - {x.Contract.Primary.First().Description}\n" +
+                            $"\tPoints: {x.Contract.Primary.First().Points}"));
+                else
+                    description = "`You have no active contracts!`";
+            }
             await ReplyAsync(embed: new LocalEmbedBuilder()
-            .WithTitle("User profile")
-            .WithDescription(string.Join("\n", bot.GetAllCommands().Select(
-                x => $"`{x.Name}` - {x.Description}")))
+            .WithDescription(description)
             .WithColor(Color.Honeydew)
             .Build()).ConfigureAwait(true);
         }
@@ -119,8 +132,8 @@ namespace contracker.Modules
                             try
                             {
                                 title = "Success";
-                                description = "`Pretend this sends an API request..`";
-                                _ = ContrackerService.Contracker.CreatePlayer(users.First(), id.ToString());
+                                description = "`API request sent...`";
+                                ContrackerService.Contracker.CreatePlayer(users.First(), id.ToString());
                             }
                             catch (XmlException e)
                             {

@@ -27,7 +27,12 @@
   <ItemGroup>
     <Reference Include="ContrackerAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>D:\source\repos\ContrackerAPI\ContrackerAPI\bin\Debug\netcoreapp3.0\ContrackerAPI.dll</HintPath>
+      <HintPath>C:\Users\jolly\RiderProjects\contracker.NET\ContrackerAPI\bin\Debug\netcoreapp3.0\ContrackerAPI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Images" />
   </ItemGroup>
 
 </Project>

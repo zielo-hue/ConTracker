@@ -11,23 +11,26 @@ namespace contracker.Services
             _token = token;
         }
 
+        // TODO handle steam api outages
         public string GetSteamName(string id)
         {
             string name = "";
             using ( dynamic steamUser = WebAPI.GetInterface("ISteamUser", _token) )
             {
                 steamUser.Timeout = TimeSpan.FromSeconds(5);
-                KeyValue response = steamUser.GetPlayerSummaries(steamids: id);
-                KeyValue user = response["players"]["player"]["0"];
-                name = user["personaname"].AsString();
+                try
+                {
+                    KeyValue response = steamUser.GetPlayerSummaries(steamids: id);
+                    KeyValue user = response["players"]["player"]["0"];
+                    name = user["personaname"].AsString();
+                }
+                catch (WebAPIRequestException e)
+                {
+                    name = "STEAM API IS DOWN, PRETEND YOUR NAME IS HERE";
+                    Console.WriteLine("steam api do the " + e);
+                }
             }
             return name;
         }
-
-        /*Redundant
-        public string getID(string url)
-        {
-            return steamUser.ResolveVanityURL(vanityurl: url)["steamid"].AsString();
-        }*/
     }
 }
