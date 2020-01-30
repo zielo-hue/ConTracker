@@ -31,17 +31,6 @@ namespace contracker.Services
             return steamAccounts;
         }
         
-        public async Task<string> GetSteamAccount(Snowflake userId)
-        {
-            var profile = await client.GetProfileAsync(userId: userId);
-            string steamAccount = "None";
-            foreach (var account in profile.ConnectedAccounts)
-            {
-                if(account.Type == "steam") steamAccount = (account.Id);
-            }
-            return steamAccount;
-        }
-        
         public async Task<bool> IsVerified(Snowflake userId)
         {
             var profile = await client.GetProfileAsync(userId: userId);
