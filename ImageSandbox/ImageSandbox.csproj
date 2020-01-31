@@ -10,4 +10,10 @@
       <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="whatthefuck.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
