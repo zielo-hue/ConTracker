@@ -7,29 +7,10 @@ using SixLabors.Primitives;
 
 namespace ImageSandbox
 {
-    static class Program
+    public static class CaptionGenerator
     {
-        private const string longtx =
-            "sedsfafdsgregesfwgqgfsdfwfqfdsaeqfqweffwfwqfwfgfqwesedsfafdsgregesfwgqgfsdfwfqfdsaeqfqweffwfwqfwfgfqwelj;dsfaojufqfdsfdaljzvcujpigdsfujvfda";
-        static void Main(string[] args)
+        public static Image SimpleCaption(string text)
         {
-            var output = new MemoryStream();
-            using (var template = Image.Load("whatthefuck.jpg"))
-            {
-                Font font = SystemFonts.CreateFont("Arial", 10);
-
-                using (var img = template.Clone(ctx =>
-                    ctx.ApplyScalingWaterMark(font, "lol", Color.HotPink, 5, false)))
-                {
-                    img.Save("bruh.jpg");
-                }
-
-                using (var img = template.Clone(ctx =>
-                    ctx.ApplyScalingWaterMark(font, longtx, Color.HotPink, 5, true)))
-                {
-                    img.Save("loe.jpg");
-                }
-            }
         }
 
         private static IImageProcessingContext ApplyScalingWaterMark(this IImageProcessingContext processingContext,
@@ -45,22 +26,28 @@ namespace ImageSandbox
                 return processingContext.ApplyScalingWaterMarkSimple(font, text, color, padding);
         }
 
-        private static IImageProcessingContext ApplyScalingWaterMarkSimple(this IImageProcessingContext processingContext,
+        private static IImageProcessingContext ApplyScalingWaterMarkSimple(
+            this IImageProcessingContext processingContext,
             Font font,
             string text,
             Color color,
             float padding)
         {
-            Size imgsize = processingContext.GetCurrentSize();
-            float targetWidth = imgsize.Width - (padding * 2);
-            float targetHeight = imgsize.Height - (padding * 2);
-            
+            Size imgSize = processingContext.GetCurrentSize();
+
+            float targetWidth = imgSize.Width - (padding * 2);
+            float targetHeight = imgSize.Height - (padding * 2);
+
+// measure the text size
             SizeF size = TextMeasurer.Measure(text, new RendererOptions(font));
-            float scalingFactor = Math.Min(imgsize.Width / size.Width, imgsize.Height / size.Height);
-            
+
+//find out how much we need to scale the text to fill the space (up or down)
+            float scalingFactor = Math.Min(imgSize.Width / size.Width, imgSize.Height / size.Height);
+
+//create a new font
             Font scaledFont = new Font(font, scalingFactor * font.Size);
-            
-            var center = new PointF(imgsize.Width / 2, imgsize.Height / 2);
+
+            var center = new PointF(imgSize.Width / 2, imgSize.Height / 2);
             var textGraphicOptions = new TextGraphicsOptions(true)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -80,15 +67,21 @@ namespace ImageSandbox
             float targetWidth = imgSize.Width - (padding * 2);
             float targetHeight = imgSize.Height - (padding * 2);
 
-            float targetMinHeight = imgSize.Height - (padding * 3);
+            float targetMinHeight =
+                imgSize.Height - (padding * 3); // must be with in a margin width of the target height
+
+// now we are working i 2 dimensions at once and can't just scale because it will cause the text to
+// reflow we need to just try multiple times
 
             var scaledFont = font;
             SizeF s = new SizeF(float.MaxValue, float.MaxValue);
 
-            float scaleFactor = (scaledFont.Size) / 2;
+            float scaleFactor = (scaledFont.Size / 2); // every time we change direction we half this size
             int trapCount = (int) scaledFont.Size * 2;
-            if (trapCount > 10)
+            if (trapCount < 10)
+            {
                 trapCount = 10;
+            }
 
             bool isTooSmall = false;
 
@@ -97,15 +90,21 @@ namespace ImageSandbox
                 if (s.Height > targetHeight)
                 {
                     if (isTooSmall)
+                    {
                         scaleFactor = scaleFactor / 2;
+                    }
+
                     scaledFont = new Font(scaledFont, scaledFont.Size - scaleFactor);
                     isTooSmall = false;
                 }
 
-                if (s.Height < targetHeight)
+                if (s.Height < targetMinHeight)
                 {
                     if (!isTooSmall)
+                    {
                         scaleFactor = scaleFactor / 2;
+                    }
+
                     scaledFont = new Font(scaledFont, scaledFont.Size + scaleFactor);
                     isTooSmall = true;
                 }
@@ -117,6 +116,7 @@ namespace ImageSandbox
                     WrappingWidth = targetWidth
                 });
             }
+
             var center = new PointF(padding, imgSize.Height / 2);
             var textGraphicOptions = new TextGraphicsOptions(true)
             {

@@ -36,4 +36,8 @@
     <Folder Include="Resources\Images" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ImageSandbox\ImageSandbox.csproj" />
+  </ItemGroup>
+
 </Project>
