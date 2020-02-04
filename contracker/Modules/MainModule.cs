@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
@@ -10,6 +11,7 @@ using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Sharding;
 using Disqord.Extensions.Interactivity.Menus;
+using ImageSandbox;
 using Qmmands;
 using SteamKit2;
 
@@ -195,5 +197,16 @@ namespace contracker.Modules
             await Context.Channel.StartMenuAsync(menu);
         }
 
+        [Command("brhuh")]
+        [Description("Image generation test")]
+        public async Task ImageAsync(string bruh)
+        {
+            using (var image = new MemoryStream())
+            {
+                CaptionGenerator.SimpleCaption(bruh, image);
+                image.Position = 0;
+                await ReplyAsync(new LocalAttachment(image, "gay.jpg")).ConfigureAwait(true);
+            }
+        }
     }
 }

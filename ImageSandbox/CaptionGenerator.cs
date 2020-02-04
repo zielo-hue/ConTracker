@@ -9,8 +9,17 @@ namespace ImageSandbox
 {
     public static class CaptionGenerator
     {
-        public static Image SimpleCaption(string text)
+        public static void SimpleCaption(string text, MemoryStream output)
         {
+            using (var img = Image.Load("whatthefuck.jpg"))
+            {
+                Font font = SystemFonts.CreateFont("Comic Sans MS", 10);
+                using (var img2 = img.Clone(ctx =>
+                    ctx.ApplyScalingWaterMark(font, text, Color.HotPink, 5, true)))
+                {
+                    img2.SaveAsJpeg(output);
+                }
+            }
         }
 
         private static IImageProcessingContext ApplyScalingWaterMark(this IImageProcessingContext processingContext,
@@ -25,7 +34,8 @@ namespace ImageSandbox
             else
                 return processingContext.ApplyScalingWaterMarkSimple(font, text, color, padding);
         }
-
+        
+        // TODO Figure out why copypasting works but why my own version doesnt
         private static IImageProcessingContext ApplyScalingWaterMarkSimple(
             this IImageProcessingContext processingContext,
             Font font,
