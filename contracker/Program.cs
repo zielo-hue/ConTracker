@@ -40,6 +40,7 @@ namespace contracker
                         .AddSingleton(new DUserService(ClientToken))
                         .AddSingleton(new SteamService(SteamToken))
                         .AddSingleton(new ContrackerService(ContrackerToken))
+                        .AddSingleton(new ImageService())
                         .BuildServiceProvider()
             })
         {
@@ -54,7 +55,7 @@ namespace contracker
             this.GetRequiredService<DUserService>();
             this.GetRequiredService<SteamService>();
             this.GetRequiredService<DBotService>();
-            this.AddExtensionAsync(new InteractivityExtension());
+            AddExtensionAsync(new InteractivityExtension());
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)

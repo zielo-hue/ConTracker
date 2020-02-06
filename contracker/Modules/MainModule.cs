@@ -23,6 +23,7 @@ namespace contracker.Modules
         public DUserService DUserService { get; set; }
         public SteamService SteamService { get; set; }
         public ContrackerService ContrackerService { get; set; }
+        public ImageService ImageService { get; set; }
 
         [Command("help", "commands")]
         [Description("Lists available commands.")]
@@ -197,7 +198,7 @@ namespace contracker.Modules
             await Context.Channel.StartMenuAsync(menu);
         }
 
-        [Command("brhuh")]
+        [Command("bruh")]
         [Description("Image generation test")]
         public async Task ImageAsync(string bruh)
         {
@@ -206,6 +207,18 @@ namespace contracker.Modules
                 CaptionGenerator.SimpleCaption(bruh, image);
                 image.Position = 0;
                 await ReplyAsync(new LocalAttachment(image, "gay.jpg")).ConfigureAwait(true);
+            }
+        }
+
+        [Command("brug")]
+        [Description("Image generation test, but epic")]
+        public async Task ImageTestAsync()
+        {
+            using (var image = new MemoryStream())
+            {
+                ImageService.OverlayTest(Context.User, image);
+                image.Position = 0;
+                await ReplyAsync(new LocalAttachment(image, "brug.jpg")).ConfigureAwait(true);
             }
         }
     }
