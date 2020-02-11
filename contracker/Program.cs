@@ -7,6 +7,7 @@ using Disqord.Bot;
 using Disqord.Bot.Sharding;
 using Disqord.Bot.Prefixes;
 using contracker.Modules;
+using contracker.Resources;
 using Disqord.Extensions.Interactivity;
 using Disqord.Extensions.Interactivity.Menus;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,7 @@ namespace contracker
         
         private Program() : base(TokenType.Bot, BotToken,
             new DefaultPrefixProvider()
-                .AddPrefix("!c")
+                .AddPrefix("!@")
                 .AddMentionPrefix(),
             new DiscordBotConfiguration
             {
@@ -41,7 +42,8 @@ namespace contracker
                         .AddSingleton(new SteamService(SteamToken))
                         .AddSingleton(new ContrackerService(ContrackerToken))
                         .AddSingleton(new ImageService())
-                        .BuildServiceProvider()
+                        .BuildServiceProvider(),
+                
             })
         {
             Logger.MessageLogged += MessageLogged;
@@ -55,7 +57,27 @@ namespace contracker
             this.GetRequiredService<DUserService>();
             this.GetRequiredService<SteamService>();
             this.GetRequiredService<DBotService>();
+            
+            // Extensions
             AddExtensionAsync(new InteractivityExtension());
+            
+            // Cooldown
+            CooldownBucketKeyGenerator = (_, __) =>
+            {
+                var type = (CooldownBucketType) _;
+                var context = (DiscordCommandContext) __;
+
+                if (context.User.Id == context.Bot.CurrentApplication.Value.Owner.Id)
+                    return null;
+
+                return type switch
+                {
+                    CooldownBucketType.User => context.User.Id,
+                    CooldownBucketType.Channel => context.Channel.Id,
+                    CooldownBucketType.Guild => context.Guild.Id,
+                    _ => throw new ArgumentOutOfRangeException(nameof(type)),
+                };
+            };
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)

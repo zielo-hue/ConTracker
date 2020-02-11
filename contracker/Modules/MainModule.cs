@@ -62,7 +62,7 @@ namespace contracker.Modules
         public async Task TrackerAsync()
         {
             var id = Context.User.Id;
-            var description = "You are not registered!";
+            var description = $"You are not registered! `!cregister` to register.";
             var builder = new LocalEmbedBuilder()
                 .WithTitle("Tracker template");
             if (ContrackerService.IsRegistered(id))
@@ -113,6 +113,7 @@ namespace contracker.Modules
 
         [Command("register")]
         [Description("Placeholder for registering.")]
+        [Cooldown(4, 5, CooldownMeasure.Seconds, CooldownBucketType.User)]
         public async Task RegisterAsync(int accountNumber = -1)
         {
             Snowflake id = Context.User.Id;
