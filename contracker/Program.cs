@@ -43,7 +43,28 @@ namespace contracker
                         .AddSingleton(new ContrackerService(ContrackerToken))
                         .AddSingleton(new ImageService())
                         .BuildServiceProvider(),
-                
+                CommandService = new CommandService(new CommandServiceConfiguration(
+                {
+                    CooldownBucketKeyGenerator = (_, __) =>
+                    {
+                        // Casting
+                        var type = (CooldownBucketType) _;
+                        var context = (DiscordCommandContext) __;
+
+                        // Exclude bot owner
+                        if (context.User.Id == context.Bot.CurrentApplication.Value.Owner.Id)
+                            return null;
+
+                        // Enums Etc.
+                        return type switch
+                        {
+                            CooldownBucketType.User => context.User.Id,
+                            CooldownBucketType.Channel => context.Channel.Id,
+                            CooldownBucketType.Guild => context.Guild.Id,
+                            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+                        };
+                    }
+                })),
             })
         {
             Logger.MessageLogged += MessageLogged;
@@ -62,7 +83,7 @@ namespace contracker
             AddExtensionAsync(new InteractivityExtension());
             
             // Cooldown
-            CooldownBucketKeyGenerator = (_, __) =>
+            /*CooldownBucketKeyGenerator = (_, __) =>
             {
                 var type = (CooldownBucketType) _;
                 var context = (DiscordCommandContext) __;
@@ -77,7 +98,7 @@ namespace contracker
                     CooldownBucketType.Guild => context.Guild.Id,
                     _ => throw new ArgumentOutOfRangeException(nameof(type)),
                 };
-            };
+            };*/
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)

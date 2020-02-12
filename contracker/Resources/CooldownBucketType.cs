@@ -1,4 +1,5 @@
 ﻿using Disqord;
+using Disqord.Bot;
 
 namespace contracker.Resources
 {
