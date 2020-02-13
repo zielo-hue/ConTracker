@@ -22,7 +22,7 @@ namespace contracker.Services
             while (true)
             {
                 await Task.Delay(30000);
-                await _bot.SetPresenceAsync(new LocalActivity("FUCK holonoid & gaming", ActivityType.Playing)).ConfigureAwait(true);
+                await _bot.SetPresenceAsync(new LocalActivity("{ \"sex\": true }", ActivityType.Playing)).ConfigureAwait(true);
             }
         }
     }

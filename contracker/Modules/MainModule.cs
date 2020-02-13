@@ -77,7 +77,7 @@ namespace contracker.Modules
                 else
                     description = "`You have no active contracts!`";
             }
-            await ReplyAsync(embed: new LocalEmbedBuilder()
+            await ReplyAsync(embed: builder
             .WithDescription(description)
             .WithColor(Color.Honeydew)
             .Build()).ConfigureAwait(true);

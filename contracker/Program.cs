@@ -43,7 +43,7 @@ namespace contracker
                         .AddSingleton(new ContrackerService(ContrackerToken))
                         .AddSingleton(new ImageService())
                         .BuildServiceProvider(),
-                CommandService = new CommandService(new CommandServiceConfiguration(
+                CommandService = new CommandService(new CommandServiceConfiguration
                 {
                     CooldownBucketKeyGenerator = (_, __) =>
                     {
@@ -56,15 +56,19 @@ namespace contracker
                             return null;
 
                         // Enums Etc.
-                        return type switch
+                        switch (type)
                         {
-                            CooldownBucketType.User => context.User.Id,
-                            CooldownBucketType.Channel => context.Channel.Id,
-                            CooldownBucketType.Guild => context.Guild.Id,
-                            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-                        };
+                            case CooldownBucketType.User:
+                                return context.User.Id;
+                            case CooldownBucketType.Channel:
+                                return context.Channel.Id;
+                            case CooldownBucketType.Guild:
+                                return context.Guild.Id;
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(type));
+                        }
                     }
-                })),
+                }),
             })
         {
             Logger.MessageLogged += MessageLogged;
@@ -107,6 +111,6 @@ namespace contracker
          // In case of fuckup:
          private async Task handler(CommandExecutionFailedEventArgs args)
            => Console.WriteLine(args.Result.Exception);
-         
+
     }
 }
