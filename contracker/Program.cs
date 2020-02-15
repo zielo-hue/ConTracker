@@ -52,7 +52,7 @@ namespace contracker
                         var context = (DiscordCommandContext) __;
 
                         // Exclude bot owner
-                        if (context.User.Id == context.Bot.CurrentApplication.Value.Owner.Id)
+                        if (context.User.Id == context.Bot.CurrentUser.Id)
                             return null;
 
                         // Enums Etc.
