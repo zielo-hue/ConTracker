@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "contracker", "contracker\contracker.csproj", "{D4C5AD6A-97B7-4243-BE58-F28776D88D21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "contracker", "contracker\contracker.csproj", "{D4C5AD6A-97B7-4243-BE58-F28776D88D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSandbox", "ImageSandbox\ImageSandbox.csproj", "{A4C399DD-0671-4C8C-98E4-A9FC83117AAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSandbox", "ImageSandbox\ImageSandbox.csproj", "{A4C399DD-0671-4C8C-98E4-A9FC83117AAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContrackerAPI", "..\contracker.NET\ContrackerAPI\ContrackerAPI.csproj", "{6879D1FF-BD4F-4807-A574-EBA4CF4C4D14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A4C399DD-0671-4C8C-98E4-A9FC83117AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C399DD-0671-4C8C-98E4-A9FC83117AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C399DD-0671-4C8C-98E4-A9FC83117AAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6879D1FF-BD4F-4807-A574-EBA4CF4C4D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6879D1FF-BD4F-4807-A574-EBA4CF4C4D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6879D1FF-BD4F-4807-A574-EBA4CF4C4D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6879D1FF-BD4F-4807-A574-EBA4CF4C4D14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
