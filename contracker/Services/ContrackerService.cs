@@ -13,18 +13,13 @@ namespace contracker.Services
             Contracker = new ContrackerAPI(key);
         }
 
-        public bool IsRegistered(Snowflake discordId)
+        public Player GetPlayer(string steamId = null, string discordId = null)
         {
-            try
+            if (steamId == null && discordId == null)
             {
-                Contracker.GetPlayer(discordId: discordId.ToString());
-                return true;
+                throw new ArgumentNullException(nameof(steamId) + ", " + nameof(discordId));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("This is PROBABLY not an error:" + e);
-                return false;
-            }
+            return Contracker.GetPlayer(steamId, discordId.ToString());
         }
     }
 }

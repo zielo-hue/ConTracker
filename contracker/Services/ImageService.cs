@@ -23,7 +23,7 @@ namespace contracker.Services
         }
         public void OverlayTest(CachedUser user, MemoryStream output)
         {
-            var player = ContrackerService.Contracker.GetPlayer(discordId: user.Id.ToString());
+            var player = ContrackerService.GetPlayer(discordId: user.Id.ToString());
             var profilePictureStream = new MemoryStream();
             profilePictureStream.Position = 0;
             GetProfilePicture(user, profilePictureStream);

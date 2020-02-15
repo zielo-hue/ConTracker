@@ -57,6 +57,17 @@ namespace contracker.Modules
                 .Build()).ConfigureAwait(true);
         }
 
+        [Command("id")]
+        [Description("Placeholder.")]
+        public async Task IdAsync(string val)
+        {
+            Snowflake target;
+            if (Discord.TryParseUserMention(val, out target))
+            {
+                IdAsync(target);
+            }
+        }
+
         [Command("contracker", "progress", "c")]
         [Description("Placeholder for checking contracker progress.")]
         public async Task TrackerAsync()
@@ -65,15 +76,15 @@ namespace contracker.Modules
             var description = $"You are not registered! `!cregister` to register.";
             var builder = new LocalEmbedBuilder()
                 .WithTitle("Tracker template");
-            if (ContrackerService.IsRegistered(id))
+            var player = ContrackerService.GetPlayer(discordId: id.ToString());
+            if (player != null)
             {
-                var player = ContrackerService.Contracker.GetPlayer(discordId: id.ToString());
                 var contracts = ContrackerService.Contracker.GetPlayerContracts(player);
                 if (contracts.Count > 0)
                     description = string.Join("\n",
                         contracts.Select(x =>
-                            $"`{x.Contract.Name}` - {x.Contract.Primary.First().Description}\n" +
-                            $"\tPoints: {x.Contract.Primary.First().Points}"));
+                            $"`{x.Contract.Name}` - {x.Contract.Primary.Description}\n" +
+                            $"\tPoints: {x.Contract.Primary.Points}"));
                 else
                     description = "`You have no active contracts!`";
             }
@@ -92,16 +103,16 @@ namespace contracker.Modules
             var description = "You are not registered!";
             var embed = new LocalEmbedBuilder()
                 .WithTitle("User profile");
-            if (ContrackerService.IsRegistered(id))
+            var player = ContrackerService.Contracker
+                .GetPlayer(discordId: id.ToString());
+            if (player != null)
             {
-                var player = ContrackerService.Contracker
-                    .GetPlayer(discordId: id.ToString());
                 description = "You are gamer.";
                 color = Color.Green;
-                embed.AddField("Discord ID", player.Discord)
-                    .AddField("Steam ID", player.Steam)
-                    .AddField("Steam Name", SteamService.GetSteamName(player.Steam))
-                    .AddField("Point", player.Points)
+                var steamname = SteamService.GetSteamName(player.Steam);
+                embed.AddField("Discord", Discord.MentionUser(Context.User))
+                    .AddField("Steam", $"[{steamname}](https://steamcommunity.com/profiles/{player.Steam})")
+                    .AddField("Total CP", player.Cp)
                     .AddField("Stars", player.Stars);
             }
 
@@ -120,7 +131,8 @@ namespace contracker.Modules
             var users = DUserService.GetAccounts(id).Result;
             string title;
             string description;
-            if (!ContrackerService.IsRegistered(id))
+            var player = ContrackerService.GetPlayer(discordId: id.ToString());
+            if (player == null)
             {
                 switch (users.Count)
                 {
@@ -179,7 +191,6 @@ namespace contracker.Modules
             }
             else
             {
-                var player = ContrackerService.Contracker.GetPlayer(discordId: id.ToString());
                 title = "You are already registered!";
                 description = "You are registered on Steam account " +
                               $"`{SteamService.GetSteamName(player.Steam)}`";
