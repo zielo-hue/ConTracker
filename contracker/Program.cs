@@ -29,7 +29,7 @@ namespace contracker
 
         private Program() : base(TokenType.Bot, BotToken,
             new DefaultPrefixProvider()
-                .AddPrefix("!@")
+                .AddPrefix("c!")
                 .AddMentionPrefix(),
             new DiscordBotConfiguration
             {
