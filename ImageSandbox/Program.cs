@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -9,12 +10,15 @@ namespace ImageSandbox
 {
     static class Program
     {
+
         private const string longtx =
             "sedsfafdsgregesfwgqgfsdfwfqfdsaeqfqweffwfwqfwfgfqwesedsfafdsgregesfwgqgfsdfwfqfdsaeqfqweffwfwqfwfgfqwelj;dsfaojufqfdsfdaljzvcujpigdsfujvfda";
         static void Main(string[] args)
         {
             var output = new MemoryStream();
-            using (var template = Image.Load("whatthefuck.jpg"))
+            var lol = Image.Load(new MemoryStream(buffer: new WebClient().DownloadData("https://cdn.discordapp.com/emojis/598551803566489611.png")));
+            lol.SaveAsPng(output);
+            /*using (var template = Image.Load("whatthefuck.jpg"))
             {
                 Font font = SystemFonts.CreateFont("Arial", 10);
 
@@ -29,7 +33,7 @@ namespace ImageSandbox
                 {
                     img.Save("loe.jpg");
                 }
-            }
+            }*/
         }
 
         private static IImageProcessingContext ApplyScalingWaterMark(this IImageProcessingContext processingContext,

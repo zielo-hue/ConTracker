@@ -57,7 +57,9 @@ namespace contracker.Modules
                 .Build()).ConfigureAwait(true);
         }
 
-        [Command("id")]
+        /*
+         what the fuck is this
+         [Command("id")]
         [Description("Placeholder.")]
         public async Task IdAsync(string val)
         {
@@ -66,14 +68,14 @@ namespace contracker.Modules
             {
                 IdAsync(target);
             }
-        }
+        }*/
 
         [Command("contracker", "progress", "c")]
         [Description("Placeholder for checking contracker progress.")]
         public async Task TrackerAsync()
         {
             var id = Context.User.Id;
-            var description = $"You are not registered! `!cregister` to register.";
+            var description = $"You are not registered! `c!register` to register.";
             var builder = new LocalEmbedBuilder()
                 .WithTitle("Tracker template");
             var player = ContrackerService.GetPlayer(discordId: id.ToString());

@@ -19,7 +19,16 @@ namespace contracker.Services
             {
                 throw new ArgumentNullException(nameof(steamId) + ", " + nameof(discordId));
             }
-            return Contracker.GetPlayer(steamId, discordId.ToString());
+
+            // ContrackerAPI does not update, placeholder handler for 404s
+            try
+            {
+                return Contracker.GetPlayer(steamId, discordId.ToString());
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }
