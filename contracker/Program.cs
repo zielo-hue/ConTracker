@@ -38,10 +38,10 @@ namespace contracker
                     new ServiceCollection()
                         .AddSingleton((DiscordBotSharder)bot)
                         .AddSingleton<DBotService>()
+                        .AddSingleton(new ImageService())
                         .AddSingleton(new DUserService(ClientToken))
                         .AddSingleton(new SteamService(SteamToken))
                         .AddSingleton(new ContrackerService(ContrackerToken))
-                        .AddSingleton(new ImageService())
                         .BuildServiceProvider(),
                 CommandService = new CommandService(new CommandServiceConfiguration
                 {
