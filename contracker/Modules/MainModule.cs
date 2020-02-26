@@ -235,5 +235,13 @@ namespace contracker.Modules
                 await ReplyAsync(new LocalAttachment(image, "brug.jpg")).ConfigureAwait(true);
             }
         }
+
+        [Command("cdt")]
+        [Description("Cool Down Test, or CDT, is a command used to test cooldowns because I can't figure this out.")]
+        [Cooldown(1, 5, CooldownMeasure.Seconds, CooldownBucketType.User)]
+        public async Task CooldownTestAsync()
+        {
+            await ReplyAsync("A");
+        }
     }
 }

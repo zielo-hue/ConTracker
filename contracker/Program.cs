@@ -51,8 +51,9 @@ namespace contracker
                         var type = (CooldownBucketType)_;
                         var context = (DiscordCommandContext)__;
 
+                        var application = context.Bot.CurrentApplication.FetchAsync();
                         // Exclude bot owner
-                        if (context.User.Id == context.Bot.CurrentUser.Id)
+                        if (context.User.Id == application.Result.Owner.Id)
                             return null;
 
                         // Enums Etc.
