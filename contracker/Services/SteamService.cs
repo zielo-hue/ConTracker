@@ -11,8 +11,7 @@ namespace contracker.Services
         {
             _token = token;
         }
-
-        // TODO handle steam api outages
+        
         public string GetSteamName(string id)
         {
             string name = "";

@@ -209,7 +209,7 @@ namespace contracker.Modules
         public async Task ReactionMenuAsync()
         {
             var menu = new RegistrationMenu();
-            await Context.Channel.StartMenuAsync(menu);
+            await Context.Channel.StartMenuAsync(menu).ConfigureAwait(true);
         }
 
         [Command("bruh")]

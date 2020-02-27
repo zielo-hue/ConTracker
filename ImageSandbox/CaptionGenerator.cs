@@ -35,7 +35,6 @@ namespace ImageSandbox
                 return processingContext.ApplyScalingWaterMarkSimple(font, text, color, padding);
         }
         
-        // TODO Figure out why copypasting works but why my own version doesnt
         private static IImageProcessingContext ApplyScalingWaterMarkSimple(
             this IImageProcessingContext processingContext,
             Font font,

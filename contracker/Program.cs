@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using Qmmands;
 using Qommon.Events;
+using Color = System.Drawing.Color;
 
 namespace contracker
 {
@@ -86,31 +87,26 @@ namespace contracker
 
             // Extensions
             AddExtensionAsync(new InteractivityExtension());
+        }
 
-            // Cooldown
-            /*CooldownBucketKeyGenerator = (_, __) =>
+        protected override ValueTask AfterExecutedAsync(IResult result, DiscordCommandContext context)
+        {
+            if (result is CommandOnCooldownResult cooldownResult)
             {
-                var type = (CooldownBucketType) _;
-                var context = (DiscordCommandContext) __;
+                var cooldownTime = cooldownResult.Cooldowns;
+                context.Channel.SendMessageAsync(embed: new LocalEmbedBuilder()
+                    .WithTitle($"You are on cooldown!")
+                    .WithColor(Color.Red).Build());
+            }
 
-                if (context.User.Id == context.Bot.CurrentApplication.Value.Owner.Id)
-                    return null;
-
-                return type switch
-                {
-                    CooldownBucketType.User => context.User.Id,
-                    CooldownBucketType.Channel => context.Channel.Id,
-                    CooldownBucketType.Guild => context.Guild.Id,
-                    _ => throw new ArgumentOutOfRangeException(nameof(type)),
-                };
-            };*/
+            return base.AfterExecutedAsync(result, context);
         }
 
         private void MessageLogged(object sender, Disqord.Logging.MessageLoggedEventArgs e)
             => Console.WriteLine(e);
 
         // In case of fuckup:
-        private async Task handler(CommandExecutionFailedEventArgs args)
+        private Task handler(CommandExecutionFailedEventArgs args)
         {
             Console.WriteLine(args.Result.Exception.ToString());
             throw args.Result.Exception;
